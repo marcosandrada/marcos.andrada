@@ -5,13 +5,13 @@
    - Footer al entrar en viewport
    - Animación de barras de Skills con contador
    - Modal para proyecto en proceso (Proyecto #3)
+   - Control de overlay en proyectos (doble tap en móvil)
 ======================================================= */
 
 // -------------------------------------------------------
 // Animación inicial al cargar (Hero + Header)
 // -------------------------------------------------------
 window.addEventListener('load', () => {
-  // Elementos del hero con entrada escalonada
   const heroElements = Array.from(document.querySelectorAll('.hero .hidden'));
   heroElements.forEach((el, i) => {
     const offsetX = (i % 2 === 0 ? -50 : 50);
@@ -25,7 +25,6 @@ window.addEventListener('load', () => {
     }, i * 150);
   });
 
-  // Enlaces del menú con entrada vertical
   const navLinks = Array.from(document.querySelectorAll('header nav a'));
   navLinks.forEach((link, i) => {
     link.style.transform = 'translateY(-30px)';
@@ -35,7 +34,7 @@ window.addEventListener('load', () => {
       link.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
       link.style.transform = 'translateY(0)';
       link.style.opacity = '1';
-    }, 500 + i * 150); // inicia tras el hero
+    }, 500 + i * 150);
   });
 });
 
@@ -43,13 +42,11 @@ window.addEventListener('load', () => {
 // Aparición de secciones al hacer scroll
 // -------------------------------------------------------
 const sections = document.querySelectorAll('section');
-
 const sectionObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('show');
-        // Hacer aparecer hijos .hidden de forma escalonada
         const hiddenEls = entry.target.querySelectorAll('.hidden');
         hiddenEls.forEach((el, i) => {
           setTimeout(() => el.classList.add('show'), i * 150);
@@ -60,7 +57,6 @@ const sectionObserver = new IntersectionObserver(
   },
   { threshold: 0.2 }
 );
-
 sections.forEach((sec) => sectionObserver.observe(sec));
 
 // -------------------------------------------------------
@@ -96,7 +92,6 @@ function animateCounter(el, target) {
     el.textContent = count + '%';
     if (count < targetValue) requestAnimationFrame(step);
   };
-
   step();
 }
 
@@ -128,22 +123,19 @@ const modal = document.getElementById('modal');
 const closeModalBtn = document.getElementById('close-modal');
 const project3 = document.querySelector('.project-3');
 
-// Accesibilidad: cerrar modal con tecla Escape
 function handleEscape(e) {
   if (e.key === 'Escape') {
     hideModal();
   }
 }
 
-// Mostrar modal
 function showModal() {
   if (!modal) return;
   modal.style.display = 'flex';
-  document.body.style.overflow = 'hidden'; // Evitar scroll de fondo
+  document.body.style.overflow = 'hidden';
   document.addEventListener('keydown', handleEscape);
 }
 
-// Ocultar modal
 function hideModal() {
   if (!modal) return;
   modal.style.display = 'none';
@@ -151,7 +143,6 @@ function hideModal() {
   document.removeEventListener('keydown', handleEscape);
 }
 
-// Abrir modal al hacer clic o Enter/Espacio sobre el proyecto 3
 if (project3) {
   project3.addEventListener('click', showModal);
   project3.addEventListener('keydown', (e) => {
@@ -162,12 +153,10 @@ if (project3) {
   });
 }
 
-// Cerrar modal al pulsar el botón
 if (closeModalBtn) {
   closeModalBtn.addEventListener('click', hideModal);
 }
 
-// Cerrar modal al hacer clic fuera del contenido
 if (modal) {
   modal.addEventListener('click', (e) => {
     if (e.target === modal) {
@@ -175,3 +164,26 @@ if (modal) {
     }
   });
 }
+
+// -------------------------------------------------------
+// Proyectos: doble tap en móvil para ver overlay
+// -------------------------------------------------------
+const projectLinks = document.querySelectorAll('.project-card[href]');
+
+projectLinks.forEach(link => {
+  let tapped = false;
+
+  link.addEventListener('click', (e) => {
+    if (window.matchMedia("(hover: none)").matches) {
+      if (!tapped) {
+        e.preventDefault();
+        tapped = true;
+        link.classList.add('tapped');
+        setTimeout(() => {
+          tapped = false;
+          link.classList.remove('tapped');
+        }, 2000);
+      }
+    }
+  });
+});
