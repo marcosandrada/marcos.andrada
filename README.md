@@ -25,8 +25,7 @@ Está desarrollado con **HTML, CSS y JavaScript**, con un diseño moderno y anim
 
 - **HTML5**  
 - **CSS3** (grid, flexbox, variables y animaciones)  
-- **JavaScript (ES6)**  
-- **IntersectionObserver API**  
+- **JavaScript (ES6)**   
 - **Google Fonts** (Poppins, Rajdhani)  
 
 ---
