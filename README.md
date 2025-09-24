@@ -3,7 +3,7 @@
 Este es mi **portfolio web personal**, creado para mostrar mi trayectoria, proyectos y habilidades tanto técnicas como personales.  
 Está desarrollado con **HTML, CSS y JavaScript**, con un diseño moderno y animaciones ligeras para hacerlo más dinámico e interactivo.
 
----
+----
 
 ## 🚀 Características principales
 
