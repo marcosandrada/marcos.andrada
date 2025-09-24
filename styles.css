@@ -81,7 +81,7 @@ header nav a:hover {
   justify-content: center;
   min-height: 55vh;
   gap: 1rem;
-  padding: 5rem 1rem 1.5rem 1rem; /* margen superior por el header fijo */
+  padding: 5rem 1rem 1.5rem 1rem;
   text-align: center;
 }
 
@@ -202,16 +202,13 @@ main {
 }
 
 .content-section p {
-  text-align: justify; /* Justificado por defecto en secciones */
+  text-align: justify;
   font-size: 1.1rem;
   color: var(--color-subtext);
   max-width: 800px;
   margin: 1rem auto 0 auto;
   line-height: 1.5;
 }
-
-/* Extra: clase para forzar justificado si se necesitara */
-.justify { text-align: justify; }
 
 /* ===============================
    PORTFOLIO 
@@ -228,15 +225,15 @@ main {
 
 .projects-container {
   display: flex;
-  justify-content: center;   /* centra todo el grupo */
-  align-items: flex-start;   /* los alineamos desde arriba */
+  justify-content: center;
+  align-items: flex-start;
   gap: 2rem;
   padding-top: 1rem;
 }
 
 .project-card {
-  width: 250px;              /* todos mismo ancho */
-  aspect-ratio: 1 / 1;       /* laterales cuadrados */
+  width: 250px;
+  aspect-ratio: 1 / 1;
   position: relative;
   border-radius: 12px;
   overflow: hidden;
@@ -247,15 +244,13 @@ main {
 }
 
 .project-card.tall {
-  aspect-ratio: 9 / 16;      /* central en vertical */
+  aspect-ratio: 9 / 16;
   width: 220px;
 }
 
 .project-card.side {
-  margin-top: 3rem;          /* bajamos los laterales */
+  margin-top: 3rem;
 }
-
-
 
 .project-card img {
   width: 100%;
@@ -286,12 +281,17 @@ main {
   transform: translateY(0);
 }
 
+/* Mostrar overlay en móviles cuando hay tap */
+.project-card.tapped .overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 @keyframes white-glow {
   0%   { box-shadow: 0 0 10px rgba(255,255,255,0.15), 0 0 20px rgba(255,255,255,0.15); }
   50%  { box-shadow: 0 0 25px rgba(255,255,255,0.35), 0 0 50px rgba(255,255,255,0.25); }
   100% { box-shadow: 0 0 10px rgba(255,255,255,0.15), 0 0 20px rgba(255,255,255,0.15); }
 }
-
 
 /* ===============================
    EDUCACIÓN / EXPERIENCIA
@@ -330,7 +330,6 @@ main {
   margin-right: auto;
 }
 
-/* Opcional: ajustar tamaño para que la barra de progreso se alinee */
 .skill-card {
   display: flex;
   flex-direction: column;
@@ -389,7 +388,6 @@ main {
   transition: width 1.5s ease-in-out;
 }
 
-
 /* ===============================
    FOOTER
 ================================= */
@@ -424,7 +422,7 @@ footer {
   inset: 0;
   background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(3px);
-  display: none;              /* se muestra con JS (display: flex) */
+  display: none;
   justify-content: center;
   align-items: center;
   z-index: 1000;
@@ -471,24 +469,33 @@ footer {
   .hero h1 { font-size: 2.2rem; }
   .hero p.role { font-size: 1.2rem; }
   .hero .cv-img { width: 120px; height: 120px; }
-
   .content-section { padding: 3rem 2rem; }
 }
 
 @media (max-width: 768px) {
+  /* NAV */
+  header nav {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem;
+  }
+  header nav a {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem;
+    font-size: 0.95rem;
+  }
+
+  /* HERO */
   .hero {
     padding-top: 10rem;
     padding-bottom: 2rem;
     min-height: 50vh;
     gap: 0.8rem;
   }
-
-  .hero .cv-img {
-    width: 90px;
-    height: 90px;
-    margin-top: 0.5rem;
-  }
-
+  .hero .cv-img { width: 90px; height: 90px; margin-top: 0.5rem; }
   .hero h1 { font-size: 1.6rem; }
   .hero p.role { font-size: 1rem; line-height: 1.4; }
   .hero .social-icons-top { gap: 0.6rem; }
@@ -496,8 +503,41 @@ footer {
   .content-section { padding: 2rem 1rem; }
   .content-section p { font-size: 1rem; line-height: 1.5; }
 
-  .project-card, .education-card, .skill-card { width: 95%; }
+  /* PROJECTS */
+  .projects-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+  }
+  .project-card,
+  .project-card.tall,
+  .project-card.side {
+    width: 75%;
+    max-width: 280px;
+    margin-top: 0;
+    aspect-ratio: auto;
+  }
+
+  /* CARDS */
+  .education-card { width: 95%; }
+  .skill-card { width: 95%; }
   .skill-icon { width: 60px; height: 60px; }
   .progress { height: 16px; }
 }
 
+@media (max-width: 480px) {
+  .project-card,
+  .project-card.tall,
+  .project-card.side {
+    width: 85%;
+    max-width: 220px;
+  }
+
+  .skills-container {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+  }
+  .skill-icon { width: 50px; height: 50px; }
+  .progress { height: 14px; }
+  .progress-fill { font-size: 0.75rem; }
+}
