@@ -297,7 +297,7 @@ footer { background: var(--color-bg); padding: 1rem 0; display: flex; justify-co
 }
 
 @media (max-width: 768px) {
-  header nav { display: flexbox; }
+  header nav { display: none; }
   body { background-attachment: scroll !important; }
 
   .hero { padding-top: 6rem; padding-bottom: 2rem; min-height: 50vh; gap: .8rem; }
@@ -332,3 +332,4 @@ footer { background: var(--color-bg); padding: 1rem 0; display: flex; justify-co
   .progress { height: 14px; }
   .progress-fill { font-size: .75rem; }
 }
+
