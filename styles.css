@@ -526,37 +526,22 @@ footer {
 }
 
 @media (max-width: 480px) {
-  .project-card,
-  .project-card.tall,
-  .project-card.side {
-    width: 85%;
-    max-width: 220px;
-  }
-
-  .skills-container {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1rem;
-  }
-  .skill-icon { width: 50px; height: 50px; }
-  .progress { height: 14px; }
-  .progress-fill { font-size: 0.75rem; }
-}
-/* ===============================
-   RESPONSIVE EXTRA (MÓVILES PEQUEÑOS)
-================================= */
-@media (max-width: 480px) {
   body {
     background-attachment: scroll; /* Evita saltos en móviles */
   }
 
+  /* NAV -> 3 enlaces en primera fila y 2 en la segunda */
   header nav {
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: auto;
+    justify-items: center;
     gap: 0.4rem;
     padding: 0.6rem;
   }
   header nav a {
     font-size: 0.85rem;
-    padding: 0.5rem;
+    padding: 0.4rem 0.5rem;
   }
 
   .hero {
@@ -626,3 +611,5 @@ footer {
     padding: 0.6rem 0;
   }
 }
+
+
