@@ -1,9 +1,5 @@
 /* =======================================================
-   script.js — Mobile-optimized animations (2025-09-25)
-   Cambios clave:
-   - Animaciones más rápidas en móviles (hero, nav, secciones)
-   - Contador de skills acelera en móviles
-   - Observers disparan antes en móvil para evitar jank
+   script.js — Optimizado para scroll en móviles
 ======================================================= */
 
 (function() {
@@ -15,34 +11,33 @@
   window.addEventListener('load', () => {
     const heroElements = Array.from(document.querySelectorAll('.hero .hidden'));
     heroElements.forEach((el, i) => {
-      const offsetX = (i % 2 === 0 ? -50 : 50);
-      el.style.transform = `translate(${offsetX}px, 30px)`;
+      const offsetX = (i % 2 === 0 ? -40 : 40);
+      el.style.transform = `translate(${offsetX}px, 20px)`;
       el.style.opacity = '0';
 
       setTimeout(() => {
-        const dur = isMobile ? 350 : 800; // ms
+        const dur = isMobile ? 200 : 700; // más corto en móvil
         el.style.transition = `transform ${dur}ms ease, opacity ${dur}ms ease`;
         el.style.transform = 'translate(0, 0)';
         el.style.opacity = '1';
-      }, i * (isMobile ? 75 : 150));
+      }, i * (isMobile ? 60 : 150));
     });
 
     const nav = document.querySelector('header nav');
-    // Si la nav está oculta en móvil, evitamos animarla
     const navHidden = nav && window.getComputedStyle(nav).display === 'none';
 
     if (!navHidden) {
       const navLinks = Array.from(document.querySelectorAll('header nav a'));
       navLinks.forEach((link, i) => {
-        link.style.transform = 'translateY(-30px)';
+        link.style.transform = 'translateY(-20px)';
         link.style.opacity = '0';
 
         setTimeout(() => {
-          const dur = isMobile ? 350 : 600; // ms
+          const dur = isMobile ? 200 : 500;
           link.style.transition = `transform ${dur}ms ease, opacity ${dur}ms ease`;
           link.style.transform = 'translateY(0)';
           link.style.opacity = '1';
-        }, (isMobile ? 250 : 500) + i * (isMobile ? 75 : 150));
+        }, (isMobile ? 200 : 400) + i * (isMobile ? 60 : 120));
       });
     }
   });
@@ -58,7 +53,7 @@
           entry.target.classList.add('show');
           const hiddenEls = entry.target.querySelectorAll('.hidden');
           hiddenEls.forEach((el, i) => {
-            setTimeout(() => el.classList.add('show'), i * (isMobile ? 75 : 150));
+            setTimeout(() => el.classList.add('show'), i * (isMobile ? 50 : 120));
           });
           sectionObserver.unobserve(entry.target);
         }
@@ -66,7 +61,7 @@
     },
     {
       threshold: isMobile ? 0.1 : 0.2,
-      rootMargin: isMobile ? '0px 0px -10% 0px' : '0px'
+      rootMargin: isMobile ? '0px 0px -20% 0px' : '0px'
     }
   );
   sections.forEach((sec) => sectionObserver.observe(sec));
@@ -98,7 +93,7 @@
   function animateCounter(el, target) {
     let count = 0;
     const targetValue = parseInt(target, 10);
-    const stepInc = isMobile ? Math.max(2, Math.ceil(targetValue / 40)) : 1; // 40 frames máx en móvil
+    const stepInc = isMobile ? Math.max(3, Math.ceil(targetValue / 30)) : 1;
 
     const step = () => {
       count += stepInc;
@@ -115,16 +110,15 @@
         if (entry.isIntersecting) {
           const fill = entry.target;
           const width = fill.getAttribute('data-width');
-          // Dispara un pelín antes en móvil
           setTimeout(() => {
             fill.style.width = width;
             animateCounter(fill, width);
-          }, isMobile ? 50 : 0);
+          }, isMobile ? 40 : 0);
           skillObserver.unobserve(fill);
         }
       });
     },
-    { threshold: isMobile ? 0.4 : 0.5 }
+    { threshold: isMobile ? 0.3 : 0.5 }
   );
 
   skillFills.forEach((fill) => {
@@ -134,7 +128,7 @@
   });
 
   // -------------------------------------------------------
-  // Modal para el Proyecto #3 (en proceso)
+  // Modal para el Proyecto #3
   // -------------------------------------------------------
   const modal = document.getElementById('modal');
   const closeModalBtn = document.getElementById('close-modal');
@@ -199,7 +193,7 @@
           setTimeout(() => {
             tapped = false;
             link.classList.remove('tapped');
-          }, 1500); // menos tiempo para móvil
+          }, 1200); // menos tiempo aún en móvil
         }
       }
     });
