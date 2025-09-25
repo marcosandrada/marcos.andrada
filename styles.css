@@ -1,9 +1,5 @@
 /* =======================================================
-   styles.css — Fully Responsive (Final Revision)
-   - Skills + Soft Skills grids fluid and adaptive
-   - Proportional scaling for mobile (fonts, paddings, widths)
-   - Modal centered & responsive
-   - Portfolio responsive
+   styles.css — Optimizado para móviles
 ======================================================= */
 
 /* RESET */
@@ -188,6 +184,7 @@ main {
   cursor: pointer;
   box-shadow: var(--shadow-soft);
   animation: white-glow 2.5s infinite ease-in-out;
+  will-change: transform, opacity;
 }
 
 .project-card img { width: 100%; height: 100%; object-fit: cover; }
@@ -240,19 +237,19 @@ main {
 .skill-card { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .skill-card p { overflow-wrap: break-word; word-break: break-word; hyphens: auto; }
 
-.skill-icon { width: 80px; height: 80px; border-radius: 50%; background: #333; margin-bottom: .5rem; display: flex; justify-content: center; align-items: center; overflow: hidden; transition: .3s; }
+.skill-icon { width: 80px; height: 80px; border-radius: 50%; background: #333; margin-bottom: .5rem; display: flex; justify-content: center; align-items: center; overflow: hidden; transition: .3s; will-change: transform, opacity; }
 .skill-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 .skill-card:hover .skill-icon { transform: scale(1.08); box-shadow: 0 6px 15px rgba(255,255,255,0.12); }
 
 .progress { width: 100%; height: 20px; background: #121212; border-radius: 10px; overflow: hidden; margin-bottom: .5rem; }
-.progress-fill { height: 100%; background: var(--color-text); border-radius: 10px 0 0 10px; display: flex; justify-content: flex-end; align-items: center; padding-right: 6px; font-weight: 700; font-size: .9rem; color: #121212; width: 0%; transition: width 1.5s ease-in-out; }
+.progress-fill { height: 100%; background: var(--color-text); border-radius: 10px 0 0 10px; display: flex; justify-content: flex-end; align-items: center; padding-right: 6px; font-weight: 700; font-size: .9rem; color: #121212; width: 0%; transition: width 1.5s ease-in-out; will-change: transform, opacity; }
 
 /* FOOTER */
 footer { background: var(--color-bg); padding: 1rem 0; display: flex; justify-content: center; color: var(--color-subtext); font-size: .9rem; }
 
 /* ANIMACIONES */
-.hidden { opacity: 0; transform: translateY(30px); }
-.show { opacity: 1; transform: translateY(0); transition: opacity .8s ease, transform .8s ease; }
+.hidden { opacity: 0; transform: translateY(30px); will-change: transform, opacity; }
+.show { opacity: 1; transform: translateY(0); transition: opacity .8s ease, transform .8s ease; will-change: transform, opacity; }
 
 /* MODAL */
 .modal-overlay {
@@ -279,15 +276,9 @@ footer { background: var(--color-bg); padding: 1rem 0; display: flex; justify-co
   text-align: center;
 }
 
-@media (max-width: 480px) {
-  .modal-content {
-    width: 95%;
-    padding: 1rem;
-    font-size: 0.95rem;
-  }
-}
-
-/* RESPONSIVE */
+/* ===========================
+   RESPONSIVE
+=========================== */
 @media (max-width: 1024px) {
   .hero h1 { font-size: 2.2rem; }
   .hero p.role { font-size: 1.2rem; }
@@ -298,7 +289,11 @@ footer { background: var(--color-bg); padding: 1rem 0; display: flex; justify-co
 
 @media (max-width: 768px) {
   header nav { display: none; }
-  body { background-attachment: scroll !important; }
+  body { 
+    background: url('img/tir2-mobile.jpg') no-repeat center center !important;
+    background-size: cover !important;
+    background-attachment: scroll !important;
+  }
 
   .hero { padding-top: 6rem; padding-bottom: 2rem; min-height: 50vh; gap: .8rem; }
   .hero .cv-img { width: 90px; height: 90px; }
@@ -331,5 +326,7 @@ footer { background: var(--color-bg); padding: 1rem 0; display: flex; justify-co
   .skill-icon { width: 50px; height: 50px; }
   .progress { height: 14px; }
   .progress-fill { font-size: .75rem; }
+  .show { transition: none !important; } /* quitar animaciones en móviles pequeños */
 }
+
 
