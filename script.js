@@ -1,189 +1,207 @@
 /* =======================================================
-   script.js — Animaciones y lógica interactiva
-   - Animación inicial (hero + navegación)
-   - Aparición de secciones con IntersectionObserver
-   - Footer al entrar en viewport
-   - Animación de barras de Skills con contador
-   - Modal para proyecto en proceso (Proyecto #3)
-   - Control de overlay en proyectos (doble tap en móvil)
+   script.js — Mobile-optimized animations (2025-09-25)
+   Cambios clave:
+   - Animaciones más rápidas en móviles (hero, nav, secciones)
+   - Contador de skills acelera en móviles
+   - Observers disparan antes en móvil para evitar jank
 ======================================================= */
 
-// -------------------------------------------------------
-// Animación inicial al cargar (Hero + Header)
-// -------------------------------------------------------
-window.addEventListener('load', () => {
-  const heroElements = Array.from(document.querySelectorAll('.hero .hidden'));
-  heroElements.forEach((el, i) => {
-    const offsetX = (i % 2 === 0 ? -50 : 50);
-    el.style.transform = `translate(${offsetX}px, 30px)`;
-    el.style.opacity = '0';
+(function() {
+  const isMobile = window.matchMedia("(max-width: 768px)").matches || ('ontouchstart' in window);
 
-    setTimeout(() => {
-      el.style.transition = 'transform 0.8s ease, opacity 0.8s ease';
-      el.style.transform = 'translate(0, 0)';
-      el.style.opacity = '1';
-    }, i * 150);
-  });
+  // -------------------------------------------------------
+  // Animación inicial al cargar (Hero + Header)
+  // -------------------------------------------------------
+  window.addEventListener('load', () => {
+    const heroElements = Array.from(document.querySelectorAll('.hero .hidden'));
+    heroElements.forEach((el, i) => {
+      const offsetX = (i % 2 === 0 ? -50 : 50);
+      el.style.transform = `translate(${offsetX}px, 30px)`;
+      el.style.opacity = '0';
 
-  const navLinks = Array.from(document.querySelectorAll('header nav a'));
-  navLinks.forEach((link, i) => {
-    link.style.transform = 'translateY(-30px)';
-    link.style.opacity = '0';
-
-    setTimeout(() => {
-      link.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
-      link.style.transform = 'translateY(0)';
-      link.style.opacity = '1';
-    }, 500 + i * 150);
-  });
-});
-
-// -------------------------------------------------------
-// Aparición de secciones al hacer scroll
-// -------------------------------------------------------
-const sections = document.querySelectorAll('section');
-const sectionObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('show');
-        const hiddenEls = entry.target.querySelectorAll('.hidden');
-        hiddenEls.forEach((el, i) => {
-          setTimeout(() => el.classList.add('show'), i * 150);
-        });
-        sectionObserver.unobserve(entry.target);
-      }
+      setTimeout(() => {
+        const dur = isMobile ? 350 : 800; // ms
+        el.style.transition = `transform ${dur}ms ease, opacity ${dur}ms ease`;
+        el.style.transform = 'translate(0, 0)';
+        el.style.opacity = '1';
+      }, i * (isMobile ? 75 : 150));
     });
-  },
-  { threshold: 0.2 }
-);
-sections.forEach((sec) => sectionObserver.observe(sec));
 
-// -------------------------------------------------------
-// Footer: aparece al entrar en viewport
-// -------------------------------------------------------
-const footer = document.querySelector('footer.hidden');
-if (footer) {
-  const footerObserver = new IntersectionObserver(
+    const nav = document.querySelector('header nav');
+    // Si la nav está oculta en móvil, evitamos animarla
+    const navHidden = nav && window.getComputedStyle(nav).display === 'none';
+
+    if (!navHidden) {
+      const navLinks = Array.from(document.querySelectorAll('header nav a'));
+      navLinks.forEach((link, i) => {
+        link.style.transform = 'translateY(-30px)';
+        link.style.opacity = '0';
+
+        setTimeout(() => {
+          const dur = isMobile ? 350 : 600; // ms
+          link.style.transition = `transform ${dur}ms ease, opacity ${dur}ms ease`;
+          link.style.transform = 'translateY(0)';
+          link.style.opacity = '1';
+        }, (isMobile ? 250 : 500) + i * (isMobile ? 75 : 150));
+      });
+    }
+  });
+
+  // -------------------------------------------------------
+  // Aparición de secciones al hacer scroll
+  // -------------------------------------------------------
+  const sections = document.querySelectorAll('section');
+  const sectionObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('show');
-          footerObserver.unobserve(entry.target);
+          const hiddenEls = entry.target.querySelectorAll('.hidden');
+          hiddenEls.forEach((el, i) => {
+            setTimeout(() => el.classList.add('show'), i * (isMobile ? 75 : 150));
+          });
+          sectionObserver.unobserve(entry.target);
         }
       });
     },
-    { threshold: 0.2 }
-  );
-  footerObserver.observe(footer);
-}
-
-// -------------------------------------------------------
-// Skills: animación de barras + contador numérico
-// -------------------------------------------------------
-const skillFills = document.querySelectorAll('.progress-fill');
-
-function animateCounter(el, target) {
-  let count = 0;
-  const targetValue = parseInt(target, 10);
-
-  const step = () => {
-    count++;
-    el.textContent = count + '%';
-    if (count < targetValue) requestAnimationFrame(step);
-  };
-  step();
-}
-
-const skillObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const fill = entry.target;
-        const width = fill.getAttribute('data-width');
-        fill.style.width = width;
-        animateCounter(fill, width);
-        skillObserver.unobserve(fill);
-      }
-    });
-  },
-  { threshold: 0.5 }
-);
-
-skillFills.forEach((fill) => {
-  fill.style.width = '0%';
-  fill.textContent = '0%';
-  skillObserver.observe(fill);
-});
-
-// -------------------------------------------------------
-// Modal para el Proyecto #3 (en proceso)
-// -------------------------------------------------------
-const modal = document.getElementById('modal');
-const closeModalBtn = document.getElementById('close-modal');
-const project3 = document.querySelector('.project-3');
-
-function handleEscape(e) {
-  if (e.key === 'Escape') {
-    hideModal();
-  }
-}
-
-function showModal() {
-  if (!modal) return;
-  modal.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-  document.addEventListener('keydown', handleEscape);
-}
-
-function hideModal() {
-  if (!modal) return;
-  modal.style.display = 'none';
-  document.body.style.overflow = '';
-  document.removeEventListener('keydown', handleEscape);
-}
-
-if (project3) {
-  project3.addEventListener('click', showModal);
-  project3.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      showModal();
+    {
+      threshold: isMobile ? 0.1 : 0.2,
+      rootMargin: isMobile ? '0px 0px -10% 0px' : '0px'
     }
+  );
+  sections.forEach((sec) => sectionObserver.observe(sec));
+
+  // -------------------------------------------------------
+  // Footer: aparece al entrar en viewport
+  // -------------------------------------------------------
+  const footer = document.querySelector('footer.hidden');
+  if (footer) {
+    const footerObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+            footerObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: isMobile ? 0.1 : 0.2 }
+    );
+    footerObserver.observe(footer);
+  }
+
+  // -------------------------------------------------------
+  // Skills: animación de barras + contador numérico
+  // -------------------------------------------------------
+  const skillFills = document.querySelectorAll('.progress-fill');
+
+  function animateCounter(el, target) {
+    let count = 0;
+    const targetValue = parseInt(target, 10);
+    const stepInc = isMobile ? Math.max(2, Math.ceil(targetValue / 40)) : 1; // 40 frames máx en móvil
+
+    const step = () => {
+      count += stepInc;
+      if (count > targetValue) count = targetValue;
+      el.textContent = count + '%';
+      if (count < targetValue) requestAnimationFrame(step);
+    };
+    step();
+  }
+
+  const skillObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const fill = entry.target;
+          const width = fill.getAttribute('data-width');
+          // Dispara un pelín antes en móvil
+          setTimeout(() => {
+            fill.style.width = width;
+            animateCounter(fill, width);
+          }, isMobile ? 50 : 0);
+          skillObserver.unobserve(fill);
+        }
+      });
+    },
+    { threshold: isMobile ? 0.4 : 0.5 }
+  );
+
+  skillFills.forEach((fill) => {
+    fill.style.width = '0%';
+    fill.textContent = '0%';
+    skillObserver.observe(fill);
   });
-}
 
-if (closeModalBtn) {
-  closeModalBtn.addEventListener('click', hideModal);
-}
+  // -------------------------------------------------------
+  // Modal para el Proyecto #3 (en proceso)
+  // -------------------------------------------------------
+  const modal = document.getElementById('modal');
+  const closeModalBtn = document.getElementById('close-modal');
+  const project3 = document.querySelector('.project-3');
 
-if (modal) {
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
+  function handleEscape(e) {
+    if (e.key === 'Escape') {
       hideModal();
     }
-  });
-}
+  }
 
-// -------------------------------------------------------
-// Proyectos: doble tap en móvil para ver overlay
-// -------------------------------------------------------
-const projectLinks = document.querySelectorAll('.project-card[href]');
+  function showModal() {
+    if (!modal) return;
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', handleEscape);
+  }
 
-projectLinks.forEach(link => {
-  let tapped = false;
+  function hideModal() {
+    if (!modal) return;
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+    document.removeEventListener('keydown', handleEscape);
+  }
 
-  link.addEventListener('click', (e) => {
-    if (window.matchMedia("(hover: none)").matches) {
-      if (!tapped) {
+  if (project3) {
+    project3.addEventListener('click', showModal);
+    project3.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        tapped = true;
-        link.classList.add('tapped');
-        setTimeout(() => {
-          tapped = false;
-          link.classList.remove('tapped');
-        }, 2000);
+        showModal();
       }
-    }
+    });
+  }
+
+  if (closeModalBtn) {
+    closeModalBtn.addEventListener('click', hideModal);
+  }
+
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        hideModal();
+      }
+    });
+  }
+
+  // -------------------------------------------------------
+  // Proyectos: doble tap en móvil para ver overlay
+  // -------------------------------------------------------
+  const projectLinks = document.querySelectorAll('.project-card[href]');
+
+  projectLinks.forEach(link => {
+    let tapped = false;
+
+    link.addEventListener('click', (e) => {
+      if (window.matchMedia("(hover: none)").matches) {
+        if (!tapped) {
+          e.preventDefault();
+          tapped = true;
+          link.classList.add('tapped');
+          setTimeout(() => {
+            tapped = false;
+            link.classList.remove('tapped');
+          }, 1500); // menos tiempo para móvil
+        }
+      }
+    });
   });
-});
+})();
