@@ -289,7 +289,7 @@ footer { background: var(--color-bg); padding: 1rem 0; display: flex; justify-co
 
 @media (max-width: 768px) {
   header nav {
-    display: flex !important;
+    display: none;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-around;
@@ -340,6 +340,7 @@ footer { background: var(--color-bg); padding: 1rem 0; display: flex; justify-co
   .progress-fill { font-size: .75rem; }
   .show { transition: none !important; } /* quitar animaciones en móviles pequeños */
 }
+
 
 
 
