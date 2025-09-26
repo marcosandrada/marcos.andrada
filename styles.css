@@ -288,11 +288,14 @@ footer { background: var(--color-bg); padding: 1rem 0; display: flex; justify-co
 }
 
 @media (max-width: 768px) {
-  header nav { display: none; }
-  body { 
-    background: url('img/tir2-mobile.jpg') no-repeat center center !important;
-    background-size: cover !important;
-    background-attachment: scroll !important;
+  header nav {
+    display: none !important; /* oculta el menú en móviles */
+  }
+
+  body {
+    background: #121212 url('img/tir2-mobile.jpg') no-repeat center top;
+    background-size: cover;
+    background-attachment: scroll;
   }
 
   .hero { padding-top: 6rem; padding-bottom: 2rem; min-height: 50vh; gap: .8rem; }
@@ -328,5 +331,6 @@ footer { background: var(--color-bg); padding: 1rem 0; display: flex; justify-co
   .progress-fill { font-size: .75rem; }
   .show { transition: none !important; } /* quitar animaciones en móviles pequeños */
 }
+
 
 
