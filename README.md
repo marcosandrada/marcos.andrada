@@ -41,6 +41,6 @@ Está desarrollado con **HTML, CSS y JavaScript**, con un diseño moderno y anim
 
 ## 📬 Contacto
 
-- 📧 Email: [marcosandrada1@hotmail.com](mailto:marcosandrada1@hotmail.com)  
+- 📧 Email: [marcos.andrada.sanchez@gmail.com](mailto:marcos.andrada.sanchez@gmail.com)  
 - 💼 LinkedIn: [linkedin.com/in/marcos-andrada-23025b283](https://www.linkedin.com/in/marcos-andrada-23025b283/)  
 - 🐙 GitHub: [github.com/marcosandrada](https://github.com/marcosandrada)  (accede a mi web portfolio:https://marcosandrada.github.io/portfolio/)
