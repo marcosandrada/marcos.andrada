@@ -2,7 +2,6 @@
    styles.css — Optimizado para móviles
 ======================================================= */
 
-/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -19,7 +18,6 @@ body {
   line-height: 1.6;
 }
 
-/* VARIABLES */
 :root {
   --color-bg: rgba(30, 30, 30, 0.85);
   --color-card: rgba(51, 51, 51, 0.85);
@@ -29,7 +27,6 @@ body {
   --shadow-soft: 0 0 12px rgba(255,255,255,0.2);
 }
 
-/* NAV */
 header nav {
   position: fixed;
   top: 0;
@@ -65,7 +62,6 @@ header nav a:hover {
   transform: scale(1.05);
 }
 
-/* HERO */
 .hero {
   display: flex;
   flex-direction: column;
@@ -121,7 +117,6 @@ header nav a:hover {
 .hero .social-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 .hero .social-icon:hover { transform: scale(1.2) rotate(10deg); box-shadow: 0 6px 15px rgba(255, 255, 255, 0.2); }
 
-/* MAIN */
 main {
   width: 100%;
   max-width: 1300px;
@@ -135,7 +130,6 @@ main {
   border-radius: 12px;
 }
 
-/* SECTION */
 .content-section {
   margin: 2.5rem 0;
   padding: 4rem;
@@ -164,7 +158,6 @@ main {
   line-height: 1.5;
 }
 
-/* PROJECTS */
 .projects-container {
   display: flex;
   justify-content: center;
@@ -218,12 +211,10 @@ main {
   100% { box-shadow: 0 0 10px rgba(255,255,255,0.15); }
 }
 
-/* EDUCATION */
 .education-container { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
 .education-card { background: var(--color-bg); border-radius: 12px; padding: 1.5rem; width: 400px; text-align: center; transition: .3s; }
 .education-card:hover { transform: translateY(-4px); box-shadow: 0 6px 20px rgba(255,255,255,0.1); }
 
-/* SKILLS */
 .skills-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -234,8 +225,14 @@ main {
   margin-left: auto;
   margin-right: auto;
 }
+
 .skill-card { display: flex; flex-direction: column; align-items: center; text-align: center; }
-.skill-card p { overflow-wrap: break-word; word-break: break-word; hyphens: auto; }
+.skill-card p {
+  text-align: center;
+  white-space: normal;
+  line-height: 1.3;
+  word-break: normal;
+}
 
 .skill-icon { width: 80px; height: 80px; border-radius: 50%; background: #333; margin-bottom: .5rem; display: flex; justify-content: center; align-items: center; overflow: hidden; transition: .3s; will-change: transform, opacity; }
 .skill-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
@@ -244,14 +241,11 @@ main {
 .progress { width: 100%; height: 20px; background: #121212; border-radius: 10px; overflow: hidden; margin-bottom: .5rem; }
 .progress-fill { height: 100%; background: var(--color-text); border-radius: 10px 0 0 10px; display: flex; justify-content: flex-end; align-items: center; padding-right: 6px; font-weight: 700; font-size: .9rem; color: #121212; width: 0%; transition: width 1.5s ease-in-out; will-change: transform, opacity; }
 
-/* FOOTER */
 footer { background: var(--color-bg); padding: 1rem 0; display: flex; justify-content: center; color: var(--color-subtext); font-size: .9rem; }
 
-/* ANIMACIONES */
 .hidden { opacity: 0; transform: translateY(30px); will-change: transform, opacity; }
 .show { opacity: 1; transform: translateY(0); transition: opacity .8s ease, transform .8s ease; will-change: transform, opacity; }
 
-/* MODAL */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -276,9 +270,6 @@ footer { background: var(--color-bg); padding: 1rem 0; display: flex; justify-co
   text-align: center;
 }
 
-/* ===========================
-   RESPONSIVE
-=========================== */
 @media (max-width: 1024px) {
   .hero h1 { font-size: 2.2rem; }
   .hero p.role { font-size: 1.2rem; }
@@ -288,45 +279,24 @@ footer { background: var(--color-bg); padding: 1rem 0; display: flex; justify-co
 }
 
 @media (max-width: 768px) {
-  header nav {
-    display: none;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-around;
-    font-size: 0.8rem;
-    padding: 0.3rem 0.5rem;
-    gap: 0.2rem;
-  }
-
-  header nav a {
-    padding: 0.2rem 0.5rem;
-  }
-  body {
-    background: url('img/tir2-mobile.jpg') no-repeat center center;
-    background-size: cover;
-    background-attachment: fixed; /* igual que en escritorio */
-  }
-
+  header nav { display: none; flex-direction: row; flex-wrap: nowrap; justify-content: space-around; font-size: 0.8rem; padding: 0.3rem 0.5rem; gap: 0.2rem; }
+  header nav a { padding: 0.2rem 0.5rem; }
+  body { background: url('img/tir2-mobile.jpg') no-repeat center center; background-size: cover; background-attachment: fixed; }
   .hero { padding-top: 6rem; padding-bottom: 2rem; min-height: 50vh; gap: .8rem; }
   .hero .cv-img { width: 90px; height: 90px; }
   .hero h1 { font-size: 1.6rem; }
   .hero p.role { font-size: 1rem; line-height: 1.4; }
-
   .content-section { padding: 1.5rem; }
   .content-section p { font-size: 1rem; line-height: 1.5; }
-
   .projects-container { flex-direction: column; align-items: center; gap: 1.2rem; }
   .project-card { width: 90%; max-width: none; animation: none; }
   .social-icon:hover { transform: none; box-shadow: none; }
-
   .education-card { width: 95%; }
   .skill-card { width: 95%; }
   .skill-icon { width: 60px; height: 60px; }
   .progress { height: 16px; }
-
   .show { transition: opacity .4s ease, transform .4s ease !important; }
   .progress-fill { transition: width .8s ease-in-out !important; }
-
   #skills .skills-container { grid-template-columns: repeat(2, 1fr); }
 }
 
@@ -338,10 +308,7 @@ footer { background: var(--color-bg); padding: 1rem 0; display: flex; justify-co
   .skill-icon { width: 50px; height: 50px; }
   .progress { height: 14px; }
   .progress-fill { font-size: .75rem; }
-  .show { transition: none !important; } /* quitar animaciones en móviles pequeños */
+  .show { transition: none !important; }
 }
-
-
-
 
 
