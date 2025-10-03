@@ -78,7 +78,7 @@ header nav a:hover {
   height: 140px;
   border-radius: 50%;
   object-fit: cover;
-  object-position: center 40%;
+  object-position: center 20%;
   box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
 }
 
@@ -310,5 +310,6 @@ footer { background: var(--color-bg); padding: 1rem 0; display: flex; justify-co
   .progress-fill { font-size: .75rem; }
   .show { transition: none !important; }
 }
+
 
 
